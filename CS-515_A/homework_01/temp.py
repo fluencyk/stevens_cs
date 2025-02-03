@@ -9,66 +9,72 @@ Requirement: Temperature Conversion
 ----- ----- ----- ----- -----
 @author: Yujun Kong
 """
-from typing import Optional
+import re
 import sys
+from typing import Optional
 
 
 def get_user_input() -> Optional[float]:
-    """ validate the user input to return a float for converting to celsius """
+    """ validates user input and returns a float or None. """
 
-    user_input: str = input("Enter temperature in Fahrenheit: ")
+    while True:
+        user_input: str = input("Enter temperature in Fahrenheit: ")
 
-    if " " in user_input or user_input == "-0":
-        return None
+        if not user_input:  # check for empty input
+            return None
 
-    if len(user_input) >= 2 and user_input[0] == "0" and user_input[1] != ".":
-        return None
+        if user_input == "-0":  # allow -0.
+            user_input = "0"
 
-    if user_input[len(user_input) - 1] == ".":
-        return None
+        if user_input == "0":  # handle 0
+            return 0.0
 
-    if user_input.replace(".", "").replace("-", "").isdecimal() is False:
-        return None
+        if user_input == "0." or user_input == "-0.":  # handle 0. and -0.
+            return None
 
-    count: int = 0
-    for i in user_input[1:len((user_input))]:
-        if i == ".":
-            count += 1
-    if count > 1 or "-" in user_input[1:len((user_input))]:
-        return None
+        if len(user_input) >= 2:  # handle 0 leading circumstances
+            if user_input[0] == "0" and user_input[1] == "0":
+                return None
+            elif user_input[0:3] == "-00":
+                return None
+            elif user_input[0] == "0" and user_input[1] != ".":
+                return None
+            elif user_input[0] == "-" and user_input[1] == "0":
+                if user_input[2] != ".":
+                    return None
 
-    if user_input == "0":
-        # print("It's totally valid!") # archived manual testing
-        return float(user_input)
-    elif user_input.replace(".", "").replace("-", "").isdecimal() is True:
-        # print("It's totally valid!") # archived manual testing
-        return float(user_input)
+        # use a regular expression for validation
+        match = re.match(r"^-?\d+(\.\d+)?$", user_input)  # allows optional
+        if not match:
+            return None
+
+        try:
+            return float(user_input)
+        except ValueError:
+            return None
 
 
 def cnvt_n_pnt_to_celsius() -> None:
-    """ convert fahrenheit to celsius and print """
+    """ converts Fahrenheit to Celsius and prints the result. """
 
-    invalid_msg: str = "Your entered is invalid, please try again."
+    while True:
+        temp_faht = get_user_input()
 
-    temp_faht = get_user_input()
+        if temp_faht is None:
+            print("Invalid input. Please try again.")
+            sys.stdout.flush()
+            continue  # go to the next loop
 
-    if temp_faht is None:
-        print(invalid_msg)
-        cnvt_n_pnt_to_celsius()
-
-    else:
         temp_cels: float = (temp_faht - 32) * (5 / 9)
-        print(f"\nTemperature in Celsius: {temp_cels: .4f}\n")
+        print(f"Temperature in Celsius: {temp_cels:.1f}")
+        sys.stdout.flush()
+        break  # exit the loop after right validation and calculation
 
 
 def main():
-    """ main program entrance """
-
+    """ main program entry point. """
     cnvt_n_pnt_to_celsius()
-    sys.exit()
 
 
 if __name__ == "__main__":
     main()
-
-# end of program

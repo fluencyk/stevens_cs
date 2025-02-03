@@ -12,20 +12,26 @@ Requirement: Calculating Letter Grades
 
 
 def calculate(number_grade: str) -> str:
-    """ conclude a letter grade based on a given specific mumerical grade """
+    """ conclude a letter grade based on a given specific mumerical grade. """
 
     try:
-        num = float(number_grade)
-    except Exception as e:
-        print(f"\nCompiler Error: ' {e} '\n")
+        float(number_grade)
+    except Exception:
         return "N/A"
     else:
         num = float(number_grade)
 
-    if num < 0 or num > 100:
-        print("A numeric-grade cannot be smaller than 0 or bigger than 100!")
+    if number_grade < 0 or number_grade > 100:
         return "N/A"
-    elif 0 <= num < 60:
+    else:
+        num = float(number_grade)
+
+    if num < 0:
+        return "N/A"
+    elif num > 100:
+        return "N/A"
+
+    if 0 <= num < 60:
         return "F"
     elif 60 <= num < 70:
         return "D"
@@ -33,24 +39,22 @@ def calculate(number_grade: str) -> str:
         return "C"
     elif 80 <= num < 90:
         return "B"
-    elif 90 <= num < 100:
+    elif 90 <= num <= 100:
         return "A"
 
 
 def manual_test() -> None:
-    """ raise a manual testing to validate correctness """
+    """ raise a manual testing to validate correctness. """
 
     ipt_val = input("\nInput a numeric grade to get a letter grade: ")
     print(f"Number-grade {ipt_val} is letter-graded '{calculate(ipt_val)}'\n")
 
 
 def main():
-    """ main program entrance """
+    """ main program entry point. """
 
     manual_test()
 
 
 if __name__ == "__main__":
     main()
-
-# end of program

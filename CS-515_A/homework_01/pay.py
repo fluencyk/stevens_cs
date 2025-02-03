@@ -13,19 +13,19 @@ import sys
 
 
 def unfair_weekly_paycheck_amount(hours: str) -> int:
-    """ wage theft paycheck calculator """
+    """ wage theft paycheck calculator. """
 
     return int(float(hours)) * 15
 
 
 def fair_weekly_paycheck_amount(hours: str) -> float:
-    """ wage non-theft paycheck calculator """
+    """ wage non-theft paycheck calculator. """
 
     return float(hours) * 15
 
 
 def main():
-    """ main program entrance """
+    """ main program entry point. """
 
     print("\nNOTE: For your easier review, two sample outputs as below:\n")
     print(f"2.5 Hrs, Unfairly Payed $ {unfair_weekly_paycheck_amount(2.5)}")
