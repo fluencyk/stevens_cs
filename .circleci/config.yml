@@ -16,3 +16,14 @@ workflows:
   build-workflow:
     jobs:
       - build
+    steps:
+      - checkout
+      - run:
+          name: List Root Directory Contents
+          command: ls -la /home/circleci/project
+      - run:
+          name: List Project Directory Contents
+          command: ls -la /home/circleci/project/studies/cs_501/asgmt/501_hw_03 || echo "Directory not found"
+      - run:
+          name: Compile Java Code
+          command: mvn compile
