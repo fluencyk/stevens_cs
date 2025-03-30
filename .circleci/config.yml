@@ -12,11 +12,6 @@ jobs:
       - store_artifacts:
           path: target/classes
           destination: class-files
-workflows:
-  build-workflow:
-    jobs:
-      - build
-    steps:
       - checkout
       - run:
           name: List Root Directory Contents
@@ -27,3 +22,7 @@ workflows:
       - run:
           name: Compile Java Code
           command: mvn compile
+workflows:
+  build-workflow:
+    jobs:
+      - build
