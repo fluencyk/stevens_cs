@@ -7,13 +7,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Compile Java Code
-          command: mvn compile
-      - store_artifacts:
-          path: target/classes
-          destination: class-files
-      - checkout
-      - run:
           name: List Root Directory Contents
           command: ls -la /home/circleci/project
       - run:
@@ -22,6 +15,9 @@ jobs:
       - run:
           name: Compile Java Code
           command: mvn compile
+      - store_artifacts:
+          path: target/classes
+          destination: class-files
 workflows:
   build-workflow:
     jobs:
